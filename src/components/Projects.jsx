@@ -103,24 +103,28 @@ export default function Projects({ projects }) {
 
               {/* Actions Footer */}
               <div className="project-footer">
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-secondary project-btn"
-                >
-                  <GithubIcon size={16} />
-                  <span>Source</span>
-                </a>
-                <a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-primary project-btn"
-                >
-                  <span>Live Preview</span>
-                  <ExternalLink size={16} />
-                </a>
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-secondary project-btn"
+                  >
+                    <GithubIcon size={16} />
+                    <span>Source</span>
+                  </a>
+                )}
+                {project.demo && project.demo !== project.github && (
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-primary project-btn"
+                  >
+                    <span>{project.demoLabel || 'Live Preview'}</span>
+                    <ExternalLink size={16} />
+                  </a>
+                )}
                 <button
                   onClick={() => setSelectedProject(project)}
                   className="btn btn-outline project-btn-details"
@@ -179,24 +183,28 @@ export default function Projects({ projects }) {
               </div>
 
               <div className="modal-footer">
-                <a 
-                  href={selectedProject.github} 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="btn btn-secondary"
-                >
-                  <GithubIcon size={16} />
-                  <span>GitHub Repository</span>
-                </a>
-                <a 
-                  href={selectedProject.demo} 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="btn btn-primary"
-                >
-                  <span>Launch Live Demo</span>
-                  <ExternalLink size={16} />
-                </a>
+                {selectedProject.github && (
+                  <a 
+                    href={selectedProject.github} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="btn btn-secondary"
+                  >
+                    <GithubIcon size={16} />
+                    <span>GitHub Repository</span>
+                  </a>
+                )}
+                {selectedProject.demo && selectedProject.demo !== selectedProject.github && (
+                  <a 
+                    href={selectedProject.demo} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="btn btn-primary"
+                  >
+                    <span>{selectedProject.demoLabel ? `Open ${selectedProject.demoLabel}` : 'Launch Live Demo'}</span>
+                    <ExternalLink size={16} />
+                  </a>
+                )}
               </div>
             </div>
           </div>

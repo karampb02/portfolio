@@ -4,13 +4,13 @@ import confetti from 'canvas-confetti';
 
 export default function InteractiveTerminal({ commands, personal }) {
   const [history, setHistory] = useState([
-    { type: 'system', text: 'Welcome to Alex Morgan\'s Interactive Developer Shell v2.4' },
+    { type: 'system', text: `Welcome to ${personal.name}'s Interactive Developer Shell v2.4` },
     { type: 'system', text: 'Type "help" to view available commands or click quick suggestions below.' }
   ]);
   const [inputVal, setInputVal] = useState('');
   const terminalEndRef = useRef(null);
 
-  const quickCommands = ['help', 'bio', 'skills', 'projects', 'stats', 'sudo hire', 'clear'];
+  const quickCommands = ['help', 'bio', 'skills', 'projects', 'certifications', 'leadership', 'stats', 'sudo hire', 'clear'];
 
   const handleCommand = (cmdText) => {
     const trimmed = cmdText.trim().toLowerCase();
@@ -99,7 +99,7 @@ export default function InteractiveTerminal({ commands, personal }) {
               <span className="dot dot-yellow" />
               <span className="dot dot-green" />
             </div>
-            <div className="terminal-title">guest@alex-portfolio:~ (bash)</div>
+            <div className="terminal-title">guest@{personal.nickname || 'karam'}-dev:~ (bash)</div>
             <div className="terminal-badge">LIVE</div>
           </div>
 
@@ -107,7 +107,7 @@ export default function InteractiveTerminal({ commands, personal }) {
             {history.map((line, idx) => (
               <div key={idx} className={`terminal-line line-${line.type}`}>
                 {line.type === 'input' && (
-                  <span className="prompt-label">guest@portfolio:~$ </span>
+                  <span className="prompt-label">guest@{personal.nickname || 'karam'}:~$ </span>
                 )}
                 <span className="line-text">{line.text}</span>
               </div>
@@ -116,7 +116,7 @@ export default function InteractiveTerminal({ commands, personal }) {
           </div>
 
           <form onSubmit={handleSubmit} className="terminal-input-bar">
-            <span className="prompt-label">guest@portfolio:~$ </span>
+            <span className="prompt-label">guest@{personal.nickname || 'karam'}:~$ </span>
             <input
               type="text"
               value={inputVal}

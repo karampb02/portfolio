@@ -6,11 +6,11 @@ export const portfolioData = {
       "B.Tech CSE Undergraduate @ GNDU",
       "Google Student Ambassador (GSA Diamond #159)",
       "IBM SkillsBuild Student Ambassador",
-      "GeeksforGeeks Campus Ambassador",
+      "AI & Full-Stack Builder (SafeBox AI, TalentAI)",
       "HackOWASP 8.0 Finalist & PEC Hacks Builder"
     ],
-    tagline: "Computer Science Undergraduate at Guru Nanak Dev University (GNDU), GSA 2026 Diamond Tier (#159 National Rank), IBM SkillsBuild Ambassador, and builder of AI & campus-scale software solutions.",
-    bio: "I am a Computer Science & Engineering undergraduate at Guru Nanak Dev University (GNDU), Amritsar. As a Google Student Ambassador (GSA 2026 Diamond Level, Rank #159 in India out of 12,000+ peers) and IBM SkillsBuild Ambassador, I bridge the gap between generative AI tooling and campus developer empowerment. I have participated in 6+ hackathons—building solutions like SupremeClassroom (PEC Hacks 3.0), GNDU Trade campus marketplace, and reaching the finals of HackOWASP 8.0 with Team Liquid. Beyond software engineering, I am a GNDU Hockey Gold Medalist and MUN Delegate.",
+    tagline: "Computer Science Undergraduate at Guru Nanak Dev University (GNDU), GSA 2026 Diamond Tier (#159 National Rank), IBM SkillsBuild Ambassador, and builder of AI security & campus-scale software solutions.",
+    bio: "I am a Computer Science & Engineering undergraduate at Guru Nanak Dev University (GNDU), Amritsar. As a Google Student Ambassador (GSA 2026 Diamond Level, Rank #159 across India out of 12,000+ peers) and IBM SkillsBuild Ambassador, I bridge the gap between generative AI tooling and campus developer empowerment. My project portfolio features SafeBox AI (full-stack phishing threat analyzer deployed on Vercel), TalentAI (Google Solution Challenge recruitment dashboard in Next.js 16), CarboTracer, and NodeForSpeed 3.0. Beyond engineering, I am a GNDU Hockey Gold Medalist and MUN Delegate.",
     availability: "Open for Software Engineering Internships, AI/Cloud Roles & Hackathon Collaborations",
     location: "Amritsar, Punjab, India",
     email: "karampb02@gmail.com",
@@ -19,14 +19,13 @@ export const portfolioData = {
     linkedin: "https://www.linkedin.com/in/karampb02/",
     devfolio: "https://devfolio.co/@karampb02",
     unstop: "https://unstop.com/u/karamsan18287",
-    twitter: "https://twitter.com",
     youtube: "https://youtube.com",
-    resumeUrl: "#resume"
+    resumeUrl: "#contact"
   },
   
   stats: [
     { value: "#159", label: "National Rank (GSA Diamond Tier)", icon: "Activity" },
-    { value: "6+", label: "Hackathons Attended (Devfolio)", icon: "Rocket" },
+    { value: "6+", label: "Hackathons Attended (Devfolio & Unstop)", icon: "Rocket" },
     { value: "2K+", label: "LinkedIn Professional Network", icon: "Clock" },
     { value: "100k+", label: "YouTube Silver Creator Impact", icon: "Code2" }
   ],
@@ -43,18 +42,18 @@ export const portfolioData = {
       icon: "Layers"
     },
     {
-      title: "Hackathon Builder (HackOWASP & PEC Hacks)",
-      desc: "Finalist at HackOWASP 8.0 with Team Liquid; engineered SupremeClassroom at PEC Hacks 3.0 for AI peer learning and automated attendance.",
+      title: "AI Security & Full-Stack Architecture",
+      desc: "Engineered SafeBox AI featuring dual-tier phishing detection using FastAPI, TypeScript, React, Docker, and deployed on Vercel.",
       icon: "Cpu"
     },
     {
-      title: "Campus Ecosystem Developer (GNDU Trade)",
-      desc: "Built GNDU Trade, a dedicated digital campus marketplace allowing university students to buy, sell, and exchange academic resources.",
+      title: "Solution Challenge & Sustainability Tech",
+      desc: "Developed TalentAI for the Google Solution Challenge using Next.js 16 and CarboTracer for carbon footprint tracking using TanStack Start & Supabase.",
       icon: "Cloud"
     },
     {
-      title: "Certified AI & Cloud Practitioner",
-      desc: "Holds official certifications including Anthropic Claude 101, NDMA Disaster Management, and Telecom Sector IoT certification.",
+      title: "Hackathon Competitor & Community Leader",
+      desc: "Finalist at HackOWASP 8.0, PEC Hacks 3.0 builder, Omnikon 2026 participant, and core organizer for GNDU Node 2.0 Hackathon.",
       icon: "Database"
     },
     {
@@ -68,46 +67,46 @@ export const portfolioData = {
     categories: [
       {
         id: "languages",
-        name: "Languages & Core CS",
+        name: "Languages & Frameworks",
         icon: "Terminal",
         items: [
-          { name: "Python", level: 92 },
-          { name: "C / C++", level: 86 },
-          { name: "Data Structures & Algorithms (DSA)", level: 88 },
-          { name: "Object-Oriented Programming (OOP)", level: 90 }
+          { name: "TypeScript / JavaScript (ES6+)", level: 92 },
+          { name: "Python / FastAPI", level: 90 },
+          { name: "React / Next.js 16 (Turbopack)", level: 88 },
+          { name: "C / C++ & DSA", level: 85 }
         ]
       },
       {
         id: "ai_genai",
-        name: "Generative AI & LLM Tools",
+        name: "AI & Security Engineering",
         icon: "Brain",
         items: [
+          { name: "SafeBox AI URL Threat Detection", level: 94 },
           { name: "Anthropic Claude 101 Certified", level: 95 },
           { name: "Google Gemini APIs & Prompt Tuning", level: 94 },
-          { name: "IBM SkillsBuild GenAI in Action", level: 92 },
-          { name: "CrispLogic AI Architecture", level: 88 }
+          { name: "IBM SkillsBuild GenAI in Action", level: 92 }
         ]
       },
       {
-        id: "web_cloud",
-        name: "Web & Cloud Architecture",
+        id: "cloud_db",
+        name: "Cloud & Database Systems",
         icon: "Cloud",
         items: [
-          { name: "HTML5 / Modern CSS3 & Vanilla JS", level: 90 },
-          { name: "React & Component Systems", level: 84 },
+          { name: "Supabase & PostgreSQL (Prisma/Drizzle)", level: 88 },
+          { name: "Vercel Deployment & Docker", level: 90 },
           { name: "AWS Cloud (EC2, S3, IAM)", level: 82 },
-          { name: "Git / GitHub / Devfolio Workflows", level: 92 }
+          { name: "Git / GitHub Version Control", level: 92 }
         ]
       },
       {
         id: "hackathons",
-        name: "Hackathon Engineering",
+        name: "Hackathon & Rapid Prototyping",
         icon: "Cpu",
         items: [
-          { name: "Rapid MVP Prototyping", level: 95 },
-          { name: "Peer Learning Platforms", level: 92 },
-          { name: "Community Marketplace Architecture", level: 88 },
-          { name: "IoT & Embedded Fundamentals", level: 80 }
+          { name: "Rapid MVP Architecture", level: 95 },
+          { name: "TanStack Start & Vite", level: 86 },
+          { name: "Network Diagnostics & Performance", level: 88 },
+          { name: "Tailwind CSS (v3 / v4)", level: 92 }
         ]
       },
       {
@@ -117,7 +116,7 @@ export const portfolioData = {
         items: [
           { name: "Campus Community Evangelism (Google/IBM)", level: 96 },
           { name: "Model United Nations (Diplomacy & Public Speaking)", level: 90 },
-          { name: "Collegiate Hockey Team Captaincy (Gold Medalist)", level: 94 },
+          { name: "Collegiate Hockey (Gold Medalist)", level: 94 },
           { name: "Digital Audience Strategy (100k+ YouTube)", level: 95 }
         ]
       }
@@ -126,83 +125,88 @@ export const portfolioData = {
 
   projects: [
     {
-      id: "supreme-classroom",
-      title: "SupremeClassroom - AI Peer Learning & Attendance",
-      category: "Full Stack",
-      featured: true,
-      description: "An AI-powered classroom ecosystem engineered at PEC Hacks 3.0 by Team Tech Nerds. Combines intelligent peer-learning doubt resolution with automated facial and biometric attendance tracking for students.",
-      tags: ["Python", "AI/ML", "Computer Vision", "PEC Hacks 3.0", "Devfolio"],
-      metrics: "Built at PEC Hacks 3.0 • Team Tech Nerds • Live on Devfolio",
-      github: "https://github.com/karampb02/SupremeClassroom",
-      demo: "https://devfolio.co/@karampb02",
-      highlights: [
-        "Constructed automated classroom attendance algorithm reducing roll-call overhead by 90%.",
-        "Engineered an interactive student study portal facilitating peer knowledge exchange.",
-        "Demonstrated working prototype in competitive 36-hour hackathon environment."
-      ]
-    },
-    {
-      id: "gndu-trade",
-      title: "GNDU Trade - Campus Resource & Commerce Exchange",
-      category: "Full Stack",
-      featured: true,
-      description: "A centralized digital marketplace built specifically for Guru Nanak Dev University students to securely trade textbooks, engineering lab gear, electronics, and study notes within verified campus circles.",
-      tags: ["JavaScript", "HTML5", "CSS3", "Campus Tech", "Marketplace"],
-      metrics: "Live for GNDU Campus • Verified student network",
-      github: "https://github.com/karampb02/GNDU-Trade",
-      demo: "https://github.com/karampb02",
-      highlights: [
-        "Architected categorized product listing with search filtering for textbooks and calculators.",
-        "Implemented secure direct contact bridges between student buyers and sellers.",
-        "Published and shared across campus student cohorts on LinkedIn and social channels."
-      ]
-    },
-    {
-      id: "hackowasp-liquid",
-      title: "Team Liquid - HackOWASP 8.0 Finalist Solution",
+      id: "safebox-ai",
+      title: "SafeBox AI - Threat Intelligence & Phishing Analysis",
       category: "AI & Systems",
       featured: true,
-      description: "A high-impact hackathon project that qualified as a National Finalist at HackOWASP 8.0, integrating advanced software architecture and distributed problem solving under tight timelines.",
-      tags: ["HackOWASP 8.0", "Python", "Systems", "Problem Solving", "Finalist"],
-      metrics: "National Finalist @ HackOWASP 8.0 • Team Liquid",
-      github: "https://github.com/karampb02",
-      demo: "https://devfolio.co/@karampb02",
+      description: "A full-stack cybersecurity web application that analyzes URLs and email messages for malicious phishing patterns using dual-tier heuristics and real-time AI security models.",
+      tags: ["Python", "FastAPI", "TypeScript", "React", "Docker", "Vercel"],
+      metrics: "Live on Vercel • Automated Dual-Tier Threat Detection",
+      github: "https://github.com/karampb02/safebox-ai-project",
+      demo: "https://safebox-ai-project.vercel.app",
+      demoLabel: "Live App",
       highlights: [
-        "Collaborated with team developers through multi-round technical judging and live pitching.",
-        "Engineered reliable backend endpoints and tested resilience under stress testing.",
-        "Selected into the grand finale of one of India's prominent student hackathons."
+        "Constructed dual-tier URL scanning engine with instant domain reputation scoring.",
+        "Engineered responsive modern interface with real-time risk assessment breakdown.",
+        "Deployed with containerized Docker workflow and Vercel edge deployment."
       ]
     },
     {
-      id: "python-learning",
-      title: "Python Algorithmic Foundations Repository",
-      category: "Systems & Backend",
-      featured: false,
-      description: "An organized open-source collection of Python data structure implementations, algorithmic problem solutions, and modular utilities developed during B.Tech coursework.",
-      tags: ["Python", "DSA", "Open Source", "Algorithms", "GitHub"],
-      metrics: "Active GitHub Repository • Core DSA Problem Solutions",
-      github: "https://github.com/karampb02/Python-learning",
-      demo: "https://github.com/karampb02/Python-learning",
+      id: "solution-challenge",
+      title: "TalentAI - Google Solution Challenge Dashboard",
+      category: "Full Stack",
+      featured: true,
+      description: "A modern talent management and recruitment analytics platform engineered for the Google Solution Challenge, delivering real-time candidate pipeline tracking and culture analytics.",
+      tags: ["Next.js 16", "TypeScript 5", "Tailwind CSS 4", "Framer Motion", "Prisma"],
+      metrics: "Google Solution Challenge • Built with Next.js 16 & Turbopack",
+      github: "https://github.com/karampb02/solution_challange",
+      demo: "https://github.com/karampb02/solution_challange",
+      demoLabel: "GitHub Repo",
       highlights: [
-        "Implemented foundational algorithms (searching, sorting, linked lists, recursion).",
-        "Structured clean documentation and test cases for each mathematical module.",
-        "Serves as study reference for peers preparing for technical coding evaluations."
+        "Architected with Next.js 16 App Router, Turbopack, and TypeScript for instantaneous load times.",
+        "Integrated interactive analytics charts using Recharts for interview funnel insights.",
+        "Engineered robust schema models using Prisma ORM with relational data persistence."
       ]
     },
     {
-      id: "mr-harpreet-creative",
-      title: "MR. HARPREET YouTube Creative Engine (100k+ Subs)",
+      id: "carbotracer",
+      title: "CarboTracer - Carbon Footprint & Emissions Tracker",
+      category: "Full Stack",
+      featured: true,
+      description: "An environmental intelligence tracking application enabling users to calculate personal transportation emissions, log carbon offsets, and visualize progress toward sustainability goals.",
+      tags: ["TanStack Start", "TypeScript", "Supabase", "Vite", "CSS"],
+      metrics: "TanStack Start • Supabase Cloud Backend • 96.5% TypeScript",
+      github: "https://github.com/karampb02/carbotracer",
+      demo: "https://github.com/karampb02/carbotracer",
+      demoLabel: "GitHub Repo",
+      highlights: [
+        "Designed clean emissions calculator evaluating vehicle fuel efficiency and transit data.",
+        "Integrated Supabase backend for authenticated user data storage and cloud sync.",
+        "Implemented interactive onboarding tour introducing key sustainability benchmarks."
+      ]
+    },
+    {
+      id: "nodeforspeed",
+      title: "NodeForSpeed 3.0 - High-Performance Diagnostic Utility",
       category: "Frontend",
       featured: false,
-      description: "Scriptwriting, narrative pacing, and audience growth analytics for the 'MR. HARPREET' YouTube channel, culminating in the YouTube Silver Creator Award with over 100,000 subscribers.",
-      tags: ["Scriptwriting", "Audience Analytics", "Media Strategy", "Growth"],
-      metrics: "100k+ Subscribers • YouTube Silver Play Button Award",
-      github: "https://youtube.com",
-      demo: "https://youtube.com",
+      description: "A lightweight, browser-based network speed, ping, and latency diagnostic utility crafted with vanilla web technologies for instant responsiveness in hackathon environments.",
+      tags: ["HTML5", "JavaScript", "CSS3", "Vercel", "Diagnostics"],
+      metrics: "Live on Vercel • Zero external dependencies • Sub-second load",
+      github: "https://github.com/karampb02/nodeforspeed3.0",
+      demo: "https://nodeforspeed-3-0.vercel.app",
+      demoLabel: "Live Utility",
       highlights: [
-        "Crafted high-retention video scripts optimizing average view duration (AVD).",
-        "Utilized data analytics to test video concepts and maximize viral reach.",
-        "Successfully crossed the 100,000 subscriber benchmark."
+        "Crafted zero-dependency speed testing tool providing accurate packet latency measurements.",
+        "Designed ultra-responsive retro-speedometer UI optimized for all screen form factors.",
+        "Deployed on Vercel global edge for rapid global benchmark accuracy."
+      ]
+    },
+    {
+      id: "spotitube",
+      title: "SpotiTube - Hybrid Audio & Video Streaming Interface",
+      category: "Frontend",
+      featured: false,
+      description: "An experimental hybrid web application merging the discovery mechanics of Spotify with YouTube's media playback ecosystem, allowing seamless cross-platform playlist viewing.",
+      tags: ["JavaScript", "HTML5", "CSS3", "Web APIs"],
+      metrics: "Cross-platform playlist UI • Responsive layout",
+      github: "https://github.com/karampb02/spotitube",
+      demo: "https://github.com/karampb02/spotitube",
+      demoLabel: "GitHub Repo",
+      highlights: [
+        "Constructed custom media playback controls with dynamic track switching.",
+        "Integrated responsive flexbox and grid layouts for both desktop and mobile viewing.",
+        "Implemented local playlist state management without heavy framework dependencies."
       ]
     }
   ],
@@ -246,14 +250,14 @@ export const portfolioData = {
     },
     {
       role: "Hackathon Competitor & Builder",
-      company: "Devfolio Community (6+ Hackathons)",
+      company: "Devfolio & Unstop (6+ Hackathons)",
       period: "2024 - Present",
       type: "Competitive Engineering",
-      description: "Active hackathon builder on Devfolio. Reached finals at HackOWASP 8.0 with Team Liquid and built SupremeClassroom at PEC Hacks 3.0.",
+      description: "Active hackathon competitor across Devfolio and Unstop. Reached finals at HackOWASP 8.0 with Team Liquid, built at PEC Hacks 3.0, and participated in Omnikon 2026.",
       points: [
         "Finalist at HackOWASP 8.0 after rigorous evaluation rounds and technical pitching.",
-        "Engineered SupremeClassroom (AI peer study + automated attendance) at PEC Hacks 3.0.",
-        "Maintains active verified builder profile on Devfolio (devfolio.co/@karampb02)."
+        "Built and demonstrated full-stack projects under tight 36-hour hackathon timelines.",
+        "Maintains active profiles on Devfolio (devfolio.co/@karampb02) and Unstop (unstop.com/u/karamsan18287)."
       ]
     },
     {
@@ -341,7 +345,7 @@ export const portfolioData = {
       grade: "Undergraduate (Year 1 - Present) • GNDU Hockey Gold Medalist",
       coursework: [
         "Data Structures & Algorithms",
-        "Python Programming",
+        "Python & TypeScript Programming",
         "Object-Oriented Programming (OOP)",
         "Discrete Mathematics",
         "Digital Logic & Computer Organization"
@@ -365,11 +369,11 @@ export const portfolioData = {
   terminalCommands: {
     help: "Available commands: bio, skills, projects, leadership, certifications, stats, contact, clear, sudo hire",
     bio: "Karamjit Singh | B.Tech CSE @ GNDU Amritsar | Google Student Ambassador (GSA Diamond #159) | IBM SkillsBuild Ambassador | HackOWASP Finalist | 100k+ YouTube Creator",
-    skills: "Languages: Python, C/C++, DSA | AI: Claude 101, Gemini Prompting, GenAI in Action | Cloud/Web: AWS, React, HTML5/CSS3 | Hackathons: PEC Hacks, HackOWASP",
-    projects: "1. SupremeClassroom (PEC Hacks 3.0) | 2. GNDU Trade (Campus Marketplace) | 3. HackOWASP Liquid Solution | 4. Python-learning repo",
+    skills: "Languages: TypeScript, Python, C/C++, DSA | Frameworks: Next.js 16, React, FastAPI, TanStack Start | AI: SafeBox AI, Claude 101, Gemini Prompting | Cloud: Supabase, Vercel, AWS",
+    projects: "1. SafeBox AI (safebox-ai-project.vercel.app) | 2. TalentAI (Solution Challenge) | 3. CarboTracer | 4. NodeForSpeed 3.0 (nodeforspeed-3-0.vercel.app) | 5. SpotiTube",
     leadership: "Google Ambassador (Diamond Tier #159) • IBM SkillsBuild Ambassador • CESS GNDU (Node 2.0) • GNDU Hockey Gold Medalist • MUN Delegate",
-    certifications: "Anthropic Claude 101 • IBM GenAI in Action • NDMA Disaster Management • HCL GUVI IIT Zonal • TSSC IoT",
-    stats: "#159 National Rank GSA • 6+ Hackathons on Devfolio • 2K+ LinkedIn Network • 100k+ YouTube Silver Creator",
+    certifications: "Anthropic Claude 101 • IBM GenAI in Action • NDMA Disaster Management • HCL GUVI IIT Zonal • TSSC IoT • Omnikon 2026",
+    stats: "#159 National Rank GSA • 6+ Hackathons on Devfolio & Unstop • 2K+ LinkedIn Network • 100k+ YouTube Silver Creator",
     contact: "Email: karampb02@gmail.com | Phone: +91 6283500082 | GitHub: github.com/karampb02 | LinkedIn: linkedin.com/in/karampb02/ | Devfolio: devfolio.co/@karampb02 | Unstop: unstop.com/u/karamsan18287",
     "sudo hire": "🎉 ACCESS GRANTED! You are connecting with Karamjit Singh — GSA Diamond Tier #159, IBM SkillsBuild Ambassador, and GNDU Software Engineer. Let's create something extraordinary together! Reach out at karampb02@gmail.com or call +91 6283500082."
   }

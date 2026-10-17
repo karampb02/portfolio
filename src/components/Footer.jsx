@@ -18,7 +18,7 @@ export default function Footer({ personal }) {
             <span className="brand-name">{personal.name}</span>
           </div>
           <p className="footer-tagline">
-            Designing and engineering resilient web software with passion and precision.
+            Google Student Ambassador, AI & Full-Stack Builder, and Computer Science undergraduate at GNDU Amritsar.
           </p>
         </div>
 

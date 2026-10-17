@@ -11,7 +11,7 @@ import {
   Copy,
   Check
 } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from './Icons';
+import { GithubIcon, LinkedinIcon, UnstopIcon } from './Icons';
 import confetti from 'canvas-confetti';
 
 export default function Hero({ personal, stats }) {
@@ -124,6 +124,12 @@ export default function Hero({ personal, stats }) {
             </a>
             <a href={personal.linkedin} target="_blank" rel="noreferrer" className="social-circle" aria-label="LinkedIn">
               <LinkedinIcon size={18} />
+            </a>
+            <a href={personal.devfolio} target="_blank" rel="noreferrer" className="social-circle" aria-label="Devfolio">
+              <Code2 size={18} />
+            </a>
+            <a href={personal.unstop} target="_blank" rel="noreferrer" className="social-circle" aria-label="Unstop">
+              <UnstopIcon size={18} />
             </a>
             <a href="#terminal" className="social-circle" aria-label="Interactive Terminal">
               <Terminal size={18} />

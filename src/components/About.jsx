@@ -47,24 +47,24 @@ export default function About({ personal, strengths }) {
           <div className="story-content">
             <div className="story-badge">
               <Zap size={16} className="text-purple" />
-              <span>Full-Stack Perspective</span>
+              <span>Campus Leadership & Engineering</span>
             </div>
-            <h3 className="story-heading">From algorithmic fundamentals to distributed architectures</h3>
+            <h3 className="story-heading">From AI Security & Full-Stack Development to Community Leadership</h3>
             <p className="story-text">
               {personal.bio}
             </p>
             <div className="story-highlights">
               <div className="highlight-item">
                 <CheckCircle2 size={18} className="text-cyan" />
-                <span>Obsessed with sub-second response times and memory efficiency</span>
+                <span>Google Student Ambassador (Diamond #159) & IBM SkillsBuild Ambassador driving campus AI adoption</span>
               </div>
               <div className="highlight-item">
                 <CheckCircle2 size={18} className="text-cyan" />
-                <span>Comfortable working across the stack: React, Node, SQL/NoSQL & Cloud</span>
+                <span>Full-Stack & Security: SafeBox AI (FastAPI/React), TalentAI (Next.js 16), and CarboTracer (Supabase)</span>
               </div>
               <div className="highlight-item">
                 <CheckCircle2 size={18} className="text-cyan" />
-                <span>Continuously solving complex graph & dynamic programming problems</span>
+                <span>6+ Hackathons (Devfolio & Unstop): HackOWASP 8.0 Finalist, PEC Hacks 3.0, and Omnikon 2026</span>
               </div>
             </div>
           </div>

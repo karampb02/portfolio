@@ -50,7 +50,7 @@ export default function Contact({ personal }) {
     });
 
     // Also trigger direct mailto link for immediate user action
-    const mailtoUri = `mailto:${personal.email}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry from ' + formData.name)}&body=${encodeURIComponent(`Hi Alex,\n\n${formData.message}\n\nFrom: ${formData.name} (${formData.email})`)}`;
+    const mailtoUri = `mailto:${personal.email}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry from ' + formData.name)}&body=${encodeURIComponent(`Hi ${personal.name},\n\n${formData.message}\n\nFrom: ${formData.name} (${formData.email})`)}`;
     
     setFormSubmitted(true);
     window.location.href = mailtoUri;
@@ -235,7 +235,7 @@ export default function Contact({ personal }) {
                       id="email"
                       name="email"
                       required
-                      placeholder="jane@example.com"
+                      placeholder="your.email@domain.com"
                       value={formData.email}
                       onChange={handleChange}
                       className="form-input"
@@ -248,7 +248,7 @@ export default function Contact({ personal }) {
                       type="text"
                       id="subject"
                       name="subject"
-                      placeholder="Full-Stack Opportunity / Project Collab"
+                      placeholder="Hackathon Collaboration / Software Engineering Role"
                       value={formData.subject}
                       onChange={handleChange}
                       className="form-input"
@@ -262,7 +262,7 @@ export default function Contact({ personal }) {
                       name="message"
                       rows="4"
                       required
-                      placeholder="Hello Alex, I'd love to discuss..."
+                      placeholder={`Hi ${personal.name.split(' ')[0]}, I would love to connect regarding...`}
                       value={formData.message}
                       onChange={handleChange}
                       className="form-input form-textarea"

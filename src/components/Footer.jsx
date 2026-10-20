@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, Code } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
 const currentYear = new Date().getFullYear();
 
@@ -9,43 +9,39 @@ export default function Footer({ personal }) {
   };
 
   return (
-    <footer className="footer-wrapper">
-      <div className="container footer-container">
+    <footer className="editorial-footer">
+      <div className="container footer-content-wrap">
         
-        <div className="footer-left">
-          <div className="brand-logo footer-brand">
-            <div className="brand-icon">
-              <Code size={18} />
-            </div>
-            <span className="brand-name">{personal.name}</span>
-          </div>
-          <p className="footer-tagline">
-            Google Student Ambassador, AI & Full-Stack Builder, and Computer Science undergraduate at GNDU Amritsar.
-          </p>
+        {/* Left: Monogram and Dynamic Year */}
+        <div className="footer-left font-mono">
+          <span className="footer-monogram font-display">{personal.name.toUpperCase()}</span>
+          <span className="footer-pipe">&bull;</span>
+          <span className="footer-copyright">&copy; {currentYear} ALL RIGHTS RESERVED</span>
         </div>
 
-        <div className="footer-links">
-          <a href="#hero">Home</a>
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
-          <a href="#experience">Experience</a>
-          <a href="#terminal">Terminal</a>
-          <a href="#contact">Contact</a>
+        {/* Center: Curated Direct Links */}
+        <div className="footer-social-strip">
+          <a href={personal.github} target="_blank" rel="noreferrer" className="footer-link font-mono" aria-label="GitHub">
+            GITHUB
+          </a>
+          <a href={personal.linkedin} target="_blank" rel="noreferrer" className="footer-link font-mono" aria-label="LinkedIn">
+            LINKEDIN
+          </a>
+          <a href={personal.unstop} target="_blank" rel="noreferrer" className="footer-link font-mono" aria-label="Unstop">
+            UNSTOP
+          </a>
         </div>
 
+        {/* Right: Back to Top */}
         <div className="footer-right">
           <button 
             onClick={scrollToTop} 
-            className="back-to-top-btn"
+            className="footer-top-btn font-mono"
             aria-label="Scroll back to top"
-            title="Scroll to top"
           >
-            <ArrowUp size={18} />
+            <span>TOP</span>
+            <ArrowUp size={14} />
           </button>
-          <div className="footer-copy">
-            © {currentYear} {personal.name}. All rights reserved.
-          </div>
         </div>
 
       </div>

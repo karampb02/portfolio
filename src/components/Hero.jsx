@@ -1,296 +1,198 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  ArrowRight, 
-  Terminal, 
-  Mail, 
-  Code2, 
-  Rocket, 
-  Activity, 
-  Clock, 
-  Copy,
-  Check,
-  Bot
-} from 'lucide-react';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, UnstopIcon } from './Icons';
-import confetti from 'canvas-confetti';
 
-gsap.registerPlugin(ScrollTrigger);
-
-export default function Hero({ personal, stats }) {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [copied, setCopied] = useState(false);
-
+export default function Hero({ personal }) {
   const heroRef = useRef(null);
-  const badgeRef = useRef(null);
-  const titleRef = useRef(null);
-  const typewriterRef = useRef(null);
-  const descRef = useRef(null);
+  const headlineRef = useRef(null);
+  const bioRef = useRef(null);
   const actionsRef = useRef(null);
-  const socialRef = useRef(null);
-  const statsRef = useRef(null);
-  const codeCardRef = useRef(null);
+  const blueprintRef = useRef(null);
 
-  // Typewriter effect
   useEffect(() => {
-    const currentRole = personal.roleTitles[roleIndex];
-    let timeout;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
 
-    if (!isDeleting && displayedText !== currentRole) {
-      timeout = setTimeout(() => {
-        setDisplayedText(currentRole.substring(0, displayedText.length + 1));
-      }, 75);
-    } else if (!isDeleting && displayedText === currentRole) {
-      timeout = setTimeout(() => {
-        setIsDeleting(true);
-      }, 2000);
-    } else if (isDeleting && displayedText !== '') {
-      timeout = setTimeout(() => {
-        setDisplayedText(currentRole.substring(0, displayedText.length - 1));
-      }, 40);
-    } else if (isDeleting && displayedText === '') {
-      setIsDeleting(false);
-      setRoleIndex((prev) => (prev + 1) % personal.roleTitles.length);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayedText, isDeleting, roleIndex, personal.roleTitles]);
-
-  // GSAP Animations (from, to, fromTo, ScrollTrigger)
-  useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero Entrance Timeline using fromTo and from
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
       tl.fromTo(
-        badgeRef.current,
-        { opacity: 0, y: -30, scale: 0.9 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.7 }
+        '.hero-kicker',
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.6 }
       )
       .fromTo(
-        titleRef.current,
-        { opacity: 0, y: 40, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.8 },
-        '-=0.4'
+        headlineRef.current?.querySelectorAll('.hero-line'),
+        { opacity: 0, y: 35 },
+        { opacity: 1, y: 0, stagger: 0.1, duration: 0.8 },
+        '-=0.3'
       )
       .fromTo(
-        typewriterRef.current,
-        { opacity: 0, y: 25 },
-        { opacity: 1, y: 0, duration: 0.6 },
-        '-=0.4'
-      )
-      .fromTo(
-        descRef.current,
-        { opacity: 0, y: 25 },
+        bioRef.current,
+        { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.6 },
         '-=0.4'
       )
       .fromTo(
         actionsRef.current,
-        { opacity: 0, y: 25 },
-        { opacity: 1, y: 0, duration: 0.6 },
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.5 },
         '-=0.3'
       )
       .fromTo(
-        socialRef.current,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5 },
-        '-=0.3'
+        blueprintRef.current,
+        { opacity: 0, x: 25 },
+        { opacity: 1, x: 0, duration: 0.8 },
+        '-=0.5'
       );
-
-      // ScrollTrigger fromTo for stats cards
-      if (statsRef.current) {
-        const statCards = statsRef.current.querySelectorAll('.stat-card');
-        gsap.fromTo(
-          statCards,
-          { opacity: 0, y: 40, scale: 0.9 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            stagger: 0.12,
-            duration: 0.7,
-            ease: 'back.out(1.4)',
-            scrollTrigger: {
-              trigger: statsRef.current,
-              start: 'top 85%',
-              toggleActions: 'play none none none'
-            }
-          }
-        );
-      }
-
-      // ScrollTrigger fromTo for code window
-      if (codeCardRef.current) {
-        gsap.fromTo(
-          codeCardRef.current,
-          { opacity: 0, y: 60, rotateX: 10 },
-          {
-            opacity: 1,
-            y: 0,
-            rotateX: 0,
-            duration: 0.9,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: codeCardRef.current,
-              start: 'top 85%',
-              toggleActions: 'play none none none'
-            }
-          }
-        );
-
-        // Continuous subtle floating animation using gsap.to
-        gsap.to(codeCardRef.current, {
-          y: -10,
-          duration: 3,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut'
-        });
-      }
     }, heroRef);
 
     return () => ctx.revert();
   }, []);
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(personal.email);
-    setCopied(true);
-    confetti({
-      particleCount: 50,
-      spread: 70,
-      origin: { y: 0.7 }
-    });
-    setTimeout(() => setCopied(false), 2500);
-  };
-
-  const getStatIcon = (iconName) => {
-    switch (iconName) {
-      case 'Code2': return <Code2 size={20} className="stat-svg" />;
-      case 'Rocket': return <Rocket size={20} className="stat-svg" />;
-      case 'Activity': return <Activity size={20} className="stat-svg" />;
-      case 'Clock': return <Clock size={20} className="stat-svg" />;
-      default: return <Code2 size={20} className="stat-svg" />;
-    }
-  };
-
   return (
-    <section ref={heroRef} className="hero-section" id="hero">
-      <div className="container hero-container">
+    <section ref={heroRef} className="editorial-hero" id="hero">
+      <div className="container hero-layout-grid">
         
-        {/* Top greeting badge */}
-        <div ref={badgeRef} className="hero-top-badge animate-float">
-          <Bot size={15} className="sparkle-icon" />
-          <span>Next-Gen Full-Stack & Generative AI Engineering</span>
-        </div>
+        {/* Left Column: Typographic Powerhouse */}
+        <div className="hero-primary-col">
+          {/* Editorial Kicker */}
+          <div className="hero-kicker editorial-meta">
+            <span className="accent-dot" />
+            <span>01 &bull; CREATIVE ENGINEERING & ARCHITECTURE</span>
+          </div>
 
-        {/* Main headline */}
-        <h1 ref={titleRef} className="hero-title">
-          Hi, I'm <span className="gradient-text">{personal.name}</span>
-        </h1>
+          {/* Huge Typographic Headline */}
+          <h1 ref={headlineRef} className="hero-headline font-display">
+            <span className="hero-line block">ENGINEERED</span>
+            <span className="hero-line block">TO FEEL</span>
+            <span className="hero-line block serif-italic text-orange">DIFFERENT.</span>
+          </h1>
 
-        {/* Dynamic Typewriter Role */}
-        <div ref={typewriterRef} className="typewriter-container">
-          <span className="typewriter-prefix">I build as a </span>
-          <span className="typewriter-text mono">{displayedText}</span>
-          <span className="cursor-blink">|</span>
-        </div>
+          {/* Editorial Introduction */}
+          <div ref={bioRef} className="hero-intro-box">
+            <p className="hero-paragraph">
+              I am <strong>{personal.name}</strong> — a full-stack engineer, product builder, and Computer Science undergraduate at GNDU Amritsar. National Rank #159 in the Google Student Ambassador program (Diamond Level) and IBM SkillsBuild Ambassador.
+            </p>
+            <p className="hero-subparagraph text-muted">
+              I craft resilient web architecture, AI security heuristics, and high-performance software with rigorous art direction and zero generic compromises.
+            </p>
+          </div>
 
-        {/* Tagline / Subtitle */}
-        <p ref={descRef} className="hero-description">
-          {personal.tagline}
-        </p>
-
-        {/* Call to Action Buttons */}
-        <div ref={actionsRef} className="hero-actions">
-          <a href="#projects" className="btn btn-primary">
-            <span>Explore Featured Projects</span>
-            <ArrowRight size={18} />
-          </a>
-
-          <a href="#contact" className="btn btn-secondary">
-            <Mail size={18} />
-            <span>Let's Connect</span>
-          </a>
-
-          <button 
-            onClick={handleCopyEmail} 
-            className="btn btn-outline copy-email-btn"
-            title="Click to copy email"
-          >
-            {copied ? <Check size={16} /> : <Copy size={16} />}
-            <span>{copied ? 'Email Copied!' : 'Copy Email'}</span>
-          </button>
-        </div>
-
-        {/* Social Link Quick Row */}
-        <div ref={socialRef} className="hero-social-row">
-          <span className="social-label">Find me on:</span>
-          <div className="social-links">
-            <a href={personal.github} target="_blank" rel="noreferrer" className="social-circle" aria-label="GitHub">
-              <GithubIcon size={18} />
+          {/* Actions & Social Links */}
+          <div ref={actionsRef} className="hero-action-row">
+            <a href="#work" className="atelier-btn atelier-btn-orange">
+              <span>EXPLORE SELECTED WORK</span>
+              <ArrowDown size={15} />
             </a>
-            <a href={personal.linkedin} target="_blank" rel="noreferrer" className="social-circle" aria-label="LinkedIn">
-              <LinkedinIcon size={18} />
+
+            <a href="#contact" className="atelier-btn atelier-btn-outline">
+              <span>GET IN TOUCH</span>
+              <ArrowUpRight size={15} />
             </a>
-            <a href={personal.devfolio} target="_blank" rel="noreferrer" className="social-circle" aria-label="Devfolio">
-              <Code2 size={18} />
-            </a>
-            <a href={personal.unstop} target="_blank" rel="noreferrer" className="social-circle" aria-label="Unstop">
-              <UnstopIcon size={18} />
-            </a>
-            <a href="#terminal" className="social-circle" aria-label="Interactive Terminal">
-              <Terminal size={18} />
-            </a>
+
+            <div className="hero-social-strip">
+              <a href={personal.github} target="_blank" rel="noreferrer" aria-label="GitHub Profile">
+                <GithubIcon size={18} />
+              </a>
+              <a href={personal.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn Profile">
+                <LinkedinIcon size={18} />
+              </a>
+              <a href={personal.unstop} target="_blank" rel="noreferrer" aria-label="Unstop Profile">
+                <UnstopIcon size={18} />
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Interactive Stats Ribbon */}
-        <div ref={statsRef} className="stats-grid">
-          {stats.map((stat, idx) => (
-            <div key={idx} className="stat-card glass-card">
-              <div className="stat-icon-wrapper">
-                {getStatIcon(stat.icon)}
-              </div>
-              <div className="stat-content">
-                <div className="stat-value gradient-text-alt">{stat.value}</div>
-                <div className="stat-label">{stat.label}</div>
-              </div>
+        {/* Right Column: Architectural Blueprint Panel */}
+        <div ref={blueprintRef} className="hero-blueprint-col">
+          <div className="blueprint-card">
+            {/* Blueprint Header */}
+            <div className="blueprint-header font-mono">
+              <span className="bp-tag text-orange">[SYSTEM_SPEC_2026]</span>
+              <span className="bp-status">&bull; OPERATIONAL</span>
             </div>
-          ))}
-        </div>
 
-        {/* Code Snippet Showcase Card */}
-        <div ref={codeCardRef} className="hero-code-wrapper">
-          <div className="code-window glass-card">
-            <div className="code-header">
-              <div className="window-dots">
-                <span className="dot dot-red" />
-                <span className="dot dot-yellow" />
-                <span className="dot dot-green" />
+            {/* Core Schematics Details */}
+            <div className="blueprint-body font-mono">
+              <div className="bp-row">
+                <span className="bp-label">OPERATOR</span>
+                <span className="bp-val text-ivory">{personal.name.toUpperCase()}</span>
               </div>
-              <div className="code-filename mono">karamjit.ai-config.ts</div>
-              <div className="code-status mono">SYSTEM ONLINE</div>
+              <div className="bp-row">
+                <span className="bp-label">LOCATION</span>
+                <span className="bp-val text-ivory">AMRITSAR, PUNJAB (31.63°N, 74.87°E)</span>
+              </div>
+              <div className="bp-row">
+                <span className="bp-label">ACADEMIC</span>
+                <span className="bp-val text-ivory">GNDU CSE (2025 - 2029)</span>
+              </div>
+              <div className="bp-row">
+                <span className="bp-label">AMBASSADOR</span>
+                <span className="bp-val text-orange">GSA DIAMOND #159 (3,910 PTS)</span>
+              </div>
+              <div className="bp-row">
+                <span className="bp-label">VERIFIED_AI</span>
+                <span className="bp-val text-ivory">IBM SKILLSBUILD / CREDLY VERIFIED</span>
+              </div>
+              <div className="bp-row">
+                <span className="bp-label">PRIMARY_STACK</span>
+                <span className="bp-val text-ivory">REACT 19 &bull; NEXT.JS 16 &bull; FASTAPI &bull; TYPESCRIPT</span>
+              </div>
             </div>
-            <pre className="code-body mono">
-              <code>
-                <span className="c-keyword">const</span> <span className="c-var">engineer</span> = &#123;{'\n'}
-                {'  '}name: <span className="c-string">"{personal.name}"</span>,{'\n'}
-                {'  '}university: <span className="c-string">"GNDU, Amritsar (B.Tech CSE 2025-29)"</span>,{'\n'}
-                {'  '}leadership: [<span className="c-string">"GSA Diamond #159"</span>, <span className="c-string">"IBM Ambassador"</span>, <span className="c-string">"GFG Ambassador"</span>],{'\n'}
-                {'  '}hackathons: <span className="c-string">"HackOWASP Finalist • PEC Hacks 3.0"</span>,{'\n'}
-                {'  '}github: <span className="c-string">"github.com/karampb02"</span>,{'\n'}
-                {'  '}linkedin: <span className="c-string">"linkedin.com/in/karampb02"</span>,{'\n'}
-                {'  '}mission: <span className="c-highlight">"Empowering campus peers & building high-impact tech"</span>{'\n'}
-                &#125;;
-              </code>
-            </pre>
+
+            {/* Visual Technical Diagram */}
+            <div className="blueprint-schematic">
+              <div className="schematic-header font-mono text-muted">
+                <span>// ARCHITECTURAL DATAFLOW</span>
+              </div>
+              <div className="schematic-flow font-mono">
+                <div className="flow-node">
+                  <span className="node-box">CLIENT EDGE</span>
+                  <span className="flow-arrow">&rarr;</span>
+                </div>
+                <div className="flow-node">
+                  <span className="node-box node-active">FASTAPI / HEURISTICS</span>
+                  <span className="flow-arrow">&rarr;</span>
+                </div>
+                <div className="flow-node">
+                  <span className="node-box">SUPABASE / CLOUD</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Blueprint Footer */}
+            <div className="blueprint-footer font-mono">
+              <span className="text-muted">ATELIER ENGINE v3.4</span>
+              <span className="text-orange">ZERO TEMPLATES</span>
+            </div>
           </div>
         </div>
 
+      </div>
+
+      {/* Editorial Bottom Ticker Bar */}
+      <div className="hero-ticker-bar font-mono">
+        <div className="container ticker-container">
+          <div className="ticker-item">
+            <span className="ticker-key text-muted">CAMPUS STANDING:</span>
+            <span className="ticker-val text-ivory">GNDU CSE UNDERGRADUATE</span>
+          </div>
+          <div className="ticker-item">
+            <span className="ticker-key text-muted">NATIONAL MERIT:</span>
+            <span className="ticker-val text-orange">#159 GSA DIAMOND TIER</span>
+          </div>
+          <div className="ticker-item">
+            <span className="ticker-key text-muted">HACKATHONS:</span>
+            <span className="ticker-val text-ivory">6+ VERIFIED (HACKOWASP FINALIST)</span>
+          </div>
+          <div className="ticker-item">
+            <span className="ticker-key text-muted">ATHLETICS:</span>
+            <span className="ticker-val text-ivory">GNDU HOCKEY GOLD MEDALIST</span>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -1,158 +1,100 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  Layers, 
-  Brain, 
-  Database, 
-  Cloud, 
-  Cpu, 
-  GitBranch, 
-  CheckCircle2, 
-  Sparkles,
-  Zap
-} from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function About({ personal, strengths }) {
+export default function About({ personal }) {
   const sectionRef = useRef(null);
-  const headerRef = useRef(null);
-  const storyRef = useRef(null);
-  const strengthsRef = useRef(null);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
-      // Header Animation
       gsap.fromTo(
-        headerRef.current,
+        '.about-reveal-block',
         { opacity: 0, y: 35 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
+          stagger: 0.15,
+          duration: 0.75,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: headerRef.current,
-            start: 'top 85%',
-            toggleActions: 'play none none none'
+            trigger: sectionRef.current,
+            start: 'top 75%'
           }
         }
       );
-
-      // Story Card Animation
-      gsap.fromTo(
-        storyRef.current,
-        { opacity: 0, y: 45, scale: 0.98 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: storyRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none none'
-          }
-        }
-      );
-
-      // Strengths Cards Stagger Animation
-      if (strengthsRef.current) {
-        const cards = strengthsRef.current.querySelectorAll('.strength-card');
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 40, scale: 0.94 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            stagger: 0.1,
-            duration: 0.7,
-            ease: 'back.out(1.4)',
-            scrollTrigger: {
-              trigger: strengthsRef.current,
-              start: 'top 80%',
-              toggleActions: 'play none none none'
-            }
-          }
-        );
-      }
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-  const getStrengthIcon = (name) => {
-    switch (name) {
-      case 'Layers': return <Layers className="strength-svg" />;
-      case 'Brain': return <Brain className="strength-svg" />;
-      case 'Database': return <Database className="strength-svg" />;
-      case 'Cloud': return <Cloud className="strength-svg" />;
-      case 'Cpu': return <Cpu className="strength-svg" />;
-      case 'GitBranch': return <GitBranch className="strength-svg" />;
-      default: return <Sparkles className="strength-svg" />;
-    }
-  };
-
   return (
-    <section ref={sectionRef} className="about-section" id="about">
+    <section ref={sectionRef} className="editorial-about-section env-ivory-section" id="about">
       <div className="container">
         
         {/* Section Header */}
-        <div ref={headerRef} className="section-header">
-          <div className="section-tag">
-            <Sparkles size={14} />
-            <span>Engineering Philosophy</span>
+        <div className="about-header about-reveal-block">
+          <div className="editorial-meta dark-meta">
+            <span className="accent-dot" />
+            <span>05 &bull; BIOGRAPHY &amp; LEADERSHIP ETHOS</span>
           </div>
-          <h2 className="section-title">
-            Passionate About Building <span className="gradient-text">Scalable Solutions</span>
+          <h2 className="editorial-title dark-title">
+            DISCIPLINE, <span className="serif-italic text-orange">CURIOSITY</span> &amp; CRAFT.
           </h2>
-          <p className="section-subtitle">
-            Bridging algorithmic precision and intuitive human-centered design to construct software that scales effortlessly.
-          </p>
         </div>
 
-        {/* Narrative & Bio Box */}
-        <div ref={storyRef} className="about-story-card glass-card">
-          <div className="story-content">
-            <div className="story-badge">
-              <Zap size={16} className="text-ai-cyan" />
-              <span>Campus Leadership & Engineering</span>
-            </div>
-            <h3 className="story-heading">From AI Security & Full-Stack Development to Community Leadership</h3>
-            <p className="story-text">
-              {personal.bio}
+        {/* Editorial 2-Column Split Composition */}
+        <div className="about-split-layout">
+          
+          {/* Left Column: Big Narrative Quote & Philosophy */}
+          <div className="about-narrative-col about-reveal-block">
+            <p className="about-lead-quote font-serif">
+              "Great engineering does not hide behind jargon or complexity. It makes intricate systems feel effortless, dependable, and dignified to interact with."
             </p>
-            <div className="story-highlights">
-              <div className="highlight-item">
-                <CheckCircle2 size={18} className="text-cyan" />
-                <span>Google Student Ambassador (Diamond #159) & IBM SkillsBuild Ambassador driving campus AI adoption</span>
-              </div>
-              <div className="highlight-item">
-                <CheckCircle2 size={18} className="text-cyan" />
-                <span>Full-Stack & Security: SafeBox AI (FastAPI/React), TalentAI (Next.js 16), and CarboTracer (Supabase)</span>
-              </div>
-              <div className="highlight-item">
-                <CheckCircle2 size={18} className="text-cyan" />
-                <span>6+ Hackathons (Devfolio & Unstop): HackOWASP 8.0 Finalist, PEC Hacks 3.0, and Omnikon 2026</span>
-              </div>
+            
+            <div className="about-story-paragraphs">
+              <p>
+                I am <strong>{personal.name}</strong> &mdash; a Computer Science &amp; Engineering undergraduate at <strong>Guru Nanak Dev University (GNDU)</strong>, Amritsar. My journey is rooted in an unwavering passion for software craftsmanship &mdash; building from first principles in algorithms, security heuristics, and modern web architectures.
+              </p>
+              <p>
+                As a <strong>Google Student Ambassador (GSA Diamond Tier &bull; National Rank #159</strong> across 12,000+ peers in India) and <strong>IBM SkillsBuild Ambassador</strong>, I actively mentor fellow engineering students, champion open developer culture, and bridge generative AI concepts with pragmatic engineering prototypes.
+              </p>
             </div>
           </div>
-        </div>
 
-        {/* Core Strengths Grid */}
-        <div ref={strengthsRef} className="strengths-grid">
-          {strengths.map((strength, index) => (
-            <div key={index} className="strength-card glass-card">
-              <div className="strength-icon-container">
-                {getStrengthIcon(strength.icon)}
-              </div>
-              <h4 className="strength-title">{strength.title}</h4>
-              <p className="strength-desc">{strength.desc}</p>
+          {/* Right Column: Key Tenets & Verified Facets */}
+          <div className="about-facets-col about-reveal-block">
+            
+            <div className="about-facet-item">
+              <div className="facet-index font-mono text-orange">[FACET_01]</div>
+              <h4 className="facet-title font-display">ATHLETIC DISCIPLINE</h4>
+              <p className="facet-desc">
+                Gold Medalist in Field Hockey at GNDU Inter-Departmental Tournaments. Competitive sports instilled deep mental stamina, team coordination under pressure, and strategic grit that directly shapes my engineering execution.
+              </p>
             </div>
-          ))}
+
+            <div className="about-facet-item">
+              <div className="facet-index font-mono text-orange">[FACET_02]</div>
+              <h4 className="facet-title font-display">COMMUNITY &amp; CONTENT LEADERSHIP</h4>
+              <p className="facet-desc">
+                Contributed to scripting and strategic research that powered a 100,000+ subscriber audience, recognized with the official <strong>YouTube Silver Creator Award</strong>. Core organizer for GNDU Node 2.0 University Hackathons.
+              </p>
+            </div>
+
+            <div className="about-facet-item">
+              <div className="facet-index font-mono text-orange">[FACET_03]</div>
+              <h4 className="facet-title font-display">CONTINUOUS INTELLECTUAL CURIOSITY</h4>
+              <p className="facet-desc">
+                From Model United Nations diplomacy to competitive hackathons (HackOWASP 8.0 finalist), I thrive where analytical problem solving intersects with clear human communication.
+              </p>
+            </div>
+
+          </div>
+
         </div>
 
       </div>

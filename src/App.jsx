@@ -3,59 +3,58 @@ import './App.css';
 import { portfolioData } from './data/portfolioData';
 
 import Preloader from './components/Preloader';
-import ParticleBackground from './components/ParticleBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
 import Projects from './components/Projects';
-import Experience from './components/Experience';
-import InteractiveTerminal from './components/InteractiveTerminal';
+import Capabilities from './components/Capabilities';
+import EngineeringApproach from './components/EngineeringApproach';
+import About from './components/About';
+import Recognition from './components/Recognition';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const { personal, stats, strengths, skills, projects, experience, education, certifications, terminalCommands } = portfolioData;
+  const { personal, projects } = portfolioData;
 
   return (
-    <div className="portfolio-app">
-      {/* Preloader Screen with Karamjit Singh & AI boot sequence */}
+    <div className="atelier-app-root">
+      {/* Tactile Editorial Print Grain */}
+      <div className="grain-overlay" aria-hidden="true" />
+
+      {/* Cinematic Opening Sequence */}
       {isLoading && (
         <Preloader onComplete={() => setIsLoading(false)} />
       )}
 
-      {/* Dynamic Interactive Particle Background & Ambient Glow */}
-      <ParticleBackground />
-
-      {/* Glassmorphic Navigation Bar */}
+      {/* Minimal Editorial Navigation */}
       <Navbar personal={personal} />
 
-      {/* Main Content Flow */}
-      <main className={isLoading ? 'content-hidden' : 'content-visible'}>
-        {/* Interactive Hero with Typewriter & Live Stats */}
-        <Hero personal={personal} stats={stats} />
+      {/* Editorial Main Flow */}
+      <main className={`atelier-main ${isLoading ? 'is-loading' : 'is-ready'}`}>
+        {/* [01] Hero: Asymmetrical Typographic Powerhouse */}
+        <Hero personal={personal} />
 
-        {/* Engineering Philosophy & Core Strengths */}
-        <About personal={personal} strengths={strengths} />
-
-        {/* Categorized Skills & Mastery Matrix */}
-        <Skills skills={skills} />
-
-        {/* Filterable Software Projects with Architecture Highlights */}
+        {/* [02] Selected Works: Alternating Curated Engineering Journal */}
         <Projects projects={projects} />
 
-        {/* Career & Education Timeline */}
-        <Experience experience={experience} education={education} certifications={certifications} />
+        {/* [03] Capabilities: Technical Index & Depth */}
+        <Capabilities />
 
-        {/* Interactive Developer Terminal Sandbox */}
-        <InteractiveTerminal commands={terminalCommands} personal={personal} />
+        {/* [04] Engineering Approach: Systems Thinking & Schematics */}
+        <EngineeringApproach />
 
-        {/* Direct Inquiries & Interactive Contact Form */}
+        {/* [05] About: Leadership, Athletics & Craft in Warm Ivory */}
+        <About personal={personal} />
+
+        {/* [06] Recognition: Clean Typographic Honor Citations */}
+        <Recognition />
+
+        {/* [07] Contact: Memorable Editorial Conclusion & Direct Transmission */}
         <Contact personal={personal} />
       </main>
 
-      {/* Footer with Monogram & Quick Links */}
+      {/* [08] Quiet Compact Editorial Footer */}
       <Footer personal={personal} />
     </div>
   );

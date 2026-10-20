@@ -1,43 +1,28 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { Cpu, Sparkles, Zap } from 'lucide-react';
-
-const bootLogs = [
-  'INITIALIZING NEURAL CORE...',
-  'CONNECTING QUANTUM MESH (GNDU NODE)...',
-  'LOADING AGENT PROTOCOLS: GSA DIAMOND #159...',
-  'SYNCHRONIZING REPOSITORIES: SAFEBOX AI & TALENTAI...',
-  'DECRYPTING PORTFOLIO: KARAMJIT SINGH...',
-  'NEURAL INTERFACE READY.'
-];
 
 export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
-  const [statusIndex, setStatusIndex] = useState(0);
   const preloaderRef = useRef(null);
-  const contentRef = useRef(null);
-  const barRef = useRef(null);
-  const lettersRef = useRef([]);
-
-  const nameString = 'KARAMJIT SINGH';
+  const counterRef = useRef(null);
+  const lineRef = useRef(null);
+  const wordmarkRef = useRef(null);
 
   useEffect(() => {
+    // Respect prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      if (onComplete) onComplete();
+      return;
+    }
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         onComplete: () => {
-          // Exit animation
-          gsap.to(contentRef.current, {
-            scale: 1.05,
-            opacity: 0,
-            duration: 0.5,
-            ease: 'power3.in'
-          });
-
           gsap.to(preloaderRef.current, {
             yPercent: -100,
-            duration: 0.8,
-            ease: 'power4.inOut',
-            delay: 0.2,
+            duration: 0.7,
+            ease: 'power3.inOut',
             onComplete: () => {
               if (onComplete) onComplete();
             }
@@ -45,62 +30,34 @@ export default function Preloader({ onComplete }) {
         }
       });
 
-      // Animate Monogram and HUD elements entrance
+      // Subtle entrance of wordmark & counter
       tl.fromTo(
-        '.preloader-hud-badge',
-        { opacity: 0, y: -20, scale: 0.9 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.7)' }
-      );
-
-      // Letter reveal for KARAMJIT SINGH
-      tl.fromTo(
-        lettersRef.current,
-        { opacity: 0, y: 40, rotateX: -90, filter: 'blur(10px)' },
-        {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          filter: 'blur(0px)',
-          stagger: 0.04,
-          duration: 0.6,
-          ease: 'power3.out'
-        },
-        '-=0.2'
-      );
-
-      tl.fromTo(
-        '.preloader-sub-tag',
+        wordmarkRef.current,
         { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
-        '-=0.2'
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
       );
 
-      // Simulated Progress Counter
-      const progressObj = { value: 0 };
+      // Smooth progress count from 0 to 100
+      const counterObj = { val: 0 };
       tl.to(
-        progressObj,
+        counterObj,
         {
-          value: 100,
-          duration: 1.8,
+          val: 100,
+          duration: 1.4,
           ease: 'power2.inOut',
           onUpdate: () => {
-            const current = Math.floor(progressObj.value);
+            const current = Math.floor(counterObj.val);
             setProgress(current);
-            if (barRef.current) {
-              barRef.current.style.width = `${current}%`;
+            if (lineRef.current) {
+              lineRef.current.style.width = `${current}%`;
             }
-            const logIdx = Math.min(
-              Math.floor((current / 100) * bootLogs.length),
-              bootLogs.length - 1
-            );
-            setStatusIndex(logIdx);
           }
         },
-        '-=0.3'
+        '-=0.2'
       );
 
-      // Hold briefly at 100%
-      tl.to({}, { duration: 0.3 });
+      // Brief hold
+      tl.to({}, { duration: 0.2 });
     }, preloaderRef);
 
     return () => ctx.revert();
@@ -110,9 +67,8 @@ export default function Preloader({ onComplete }) {
     gsap.killTweensOf(preloaderRef.current);
     gsap.to(preloaderRef.current, {
       yPercent: -100,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power4.inOut',
+      duration: 0.4,
+      ease: 'power3.inOut',
       onComplete: () => {
         if (onComplete) onComplete();
       }
@@ -120,89 +76,47 @@ export default function Preloader({ onComplete }) {
   };
 
   return (
-    <div ref={preloaderRef} className="preloader-overlay" onClick={handleSkip}>
-      {/* Background Neural Grid and Ambient Glows */}
-      <div className="preloader-grid" />
-      <div className="preloader-glow-orb orb-ai-cyan" />
-      <div className="preloader-glow-orb orb-ai-violet" />
+    <div ref={preloaderRef} className="editorial-preloader" onClick={handleSkip}>
+      <div className="preloader-inner">
+        {/* Top Minimal Status */}
+        <div className="preloader-top-meta font-mono">
+          <span>THE DIGITAL ATELIER</span>
+          <span className="preloader-dot" />
+          <span>PORTFOLIO // 2026</span>
+        </div>
 
-      {/* Skip Button */}
-      <button 
-        className="preloader-skip-btn" 
-        onClick={(e) => {
-          e.stopPropagation();
-          handleSkip();
-        }}
-        title="Skip intro animation"
-      >
-        <span>SKIP INTRO</span>
-        <span className="mono">↵</span>
-      </button>
+        {/* Center Editorial Wordmark */}
+        <div ref={wordmarkRef} className="preloader-wordmark-wrap">
+          <div className="preloader-monogram font-serif">K.S</div>
+          <h1 className="preloader-name font-display">KARAMJIT SINGH</h1>
+          <p className="preloader-subtitle font-mono">
+            FULL-STACK ENGINEER &bull; GSA DIAMOND #159
+          </p>
+        </div>
 
-      {/* Main Preloader Content Box */}
-      <div ref={contentRef} className="preloader-content">
-        
-        {/* Futuristic Radar / Monogram Node */}
-        <div className="preloader-node-wrap">
-          <div className="preloader-cyber-ring ring-outer" />
-          <div className="preloader-cyber-ring ring-inner" />
-          <div className="preloader-cyber-core">
-            <Cpu size={28} className="preloader-core-icon" />
+        {/* Bottom Fine Hairline & Restrained Counter */}
+        <div className="preloader-bottom-bar">
+          <div className="preloader-track">
+            <div ref={lineRef} className="preloader-line" />
+          </div>
+          <div className="preloader-counter-row font-mono">
+            <span className="preloader-status">INITIALIZING ENVIRONMENT</span>
+            <span ref={counterRef} className="preloader-number">
+              {progress < 10 ? `00${progress}` : progress < 100 ? `0${progress}` : '100'}
+            </span>
           </div>
         </div>
 
-        {/* HUD Top Badge */}
-        <div className="preloader-hud-badge">
-          <span className="ai-dot-pulse" />
-          <span className="mono">SYSTEM BOOT SEQUENCE // KARAMJIT_AI.v3</span>
-        </div>
-
-        {/* Big Name: KARAMJIT SINGH */}
-        <div className="preloader-name-container">
-          <h1 className="preloader-name">
-            {nameString.split('').map((char, i) => (
-              <span
-                key={i}
-                ref={(el) => (lettersRef.current[i] = el)}
-                className={`preloader-char ${char === ' ' ? 'space' : ''}`}
-              >
-                {char === ' ' ? '\u00A0' : char}
-              </span>
-            ))}
-          </h1>
-        </div>
-
-        {/* Subtitle / Role Tag */}
-        <div className="preloader-sub-tag">
-          <Sparkles size={14} className="text-ai-cyan" />
-          <span>AI & FULL-STACK ENGINEER • GSA DIAMOND #159</span>
-          <Zap size={14} className="text-ai-violet" />
-        </div>
-
-        {/* Live Boot Diagnostics Log */}
-        <div className="preloader-log mono">
-          <span className="log-prefix">&gt;</span>
-          <span className="log-text">{bootLogs[statusIndex]}</span>
-          <span className="cursor-blink">_</span>
-        </div>
-
-        {/* Progress Bar Container */}
-        <div className="preloader-bar-wrapper">
-          <div className="preloader-bar-header mono">
-            <span className="bar-status-label">LOADING ASSETS</span>
-            <span className="bar-percentage">{progress}%</span>
-          </div>
-          <div className="preloader-bar-track">
-            <div ref={barRef} className="preloader-bar-fill" />
-            <div className="preloader-bar-scanner" />
-          </div>
-        </div>
-
-        {/* Subtle Hint */}
-        <div className="preloader-hint mono">
-          CLICK ANYWHERE TO ENTER
-        </div>
-
+        {/* Skip button */}
+        <button 
+          className="preloader-skip-trigger font-mono"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleSkip();
+          }}
+        >
+          [ SKIP INTRO ↵ ]
+        </button>
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ export default function ParticleBackground() {
     const mouse = {
       x: null,
       y: null,
-      radius: 120
+      radius: 130
     };
 
     const handleMouseMove = (e) => {
@@ -38,23 +38,24 @@ export default function ParticleBackground() {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseleave', handleMouseLeave);
 
-    // Create particles
-    const particleCount = Math.floor((width * height) / 18000);
+    // Create particles with glowing AI palette
+    const particleCount = Math.floor((width * height) / 16000);
     const particles = [];
 
     const colors = [
-      'rgba(139, 92, 246, 0.45)', // purple
-      'rgba(6, 182, 212, 0.45)',  // cyan
-      'rgba(236, 72, 153, 0.35)', // pink
-      'rgba(255, 255, 255, 0.3)'  // white
+      'rgba(0, 245, 212, 0.65)',   // electric AI cyan
+      'rgba(139, 92, 246, 0.6)',   // AI hyper-violet
+      'rgba(0, 255, 157, 0.5)',   // matrix green
+      'rgba(56, 189, 248, 0.55)',  // sky neural
+      'rgba(244, 63, 94, 0.4)'     // laser pink
     ];
 
-    for (let i = 0; i < Math.max(particleCount, 45); i++) {
+    for (let i = 0; i < Math.max(particleCount, 50); i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.45,
-        vy: (Math.random() - 0.5) * 0.45,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
         size: Math.random() * 2 + 1,
         color: colors[Math.floor(Math.random() * colors.length)],
         baseSize: Math.random() * 2 + 1
@@ -64,19 +65,19 @@ export default function ParticleBackground() {
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Draw subtle connections
+      // Draw neural synaptic connections
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 110) {
+          if (dist < 115) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(139, 92, 246, ${0.12 * (1 - dist / 110)})`;
-            ctx.lineWidth = 0.6;
+            ctx.strokeStyle = `rgba(0, 245, 212, ${0.12 * (1 - dist / 115)})`;
+            ctx.lineWidth = 0.65;
             ctx.stroke();
           }
         }
@@ -98,10 +99,10 @@ export default function ParticleBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < mouse.radius) {
-            const force = (1 - dist / mouse.radius) * 2;
+            const force = (1 - dist / mouse.radius) * 2.2;
             p.x -= (dx / dist) * force;
             p.y -= (dy / dist) * force;
-            p.size = p.baseSize + force * 2;
+            p.size = p.baseSize + force * 2.2;
           } else {
             p.size = p.baseSize;
           }
@@ -110,7 +111,7 @@ export default function ParticleBackground() {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
-        ctx.shadowBlur = 6;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = p.color;
         ctx.fill();
         ctx.shadowBlur = 0;

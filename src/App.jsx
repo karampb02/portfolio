@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { portfolioData } from './data/portfolioData';
 
+import Preloader from './components/Preloader';
 import ParticleBackground from './components/ParticleBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -14,10 +15,16 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const { personal, stats, strengths, skills, projects, experience, education, certifications, terminalCommands } = portfolioData;
 
   return (
     <div className="portfolio-app">
+      {/* Preloader Screen with Karamjit Singh & AI boot sequence */}
+      {isLoading && (
+        <Preloader onComplete={() => setIsLoading(false)} />
+      )}
+
       {/* Dynamic Interactive Particle Background & Ambient Glow */}
       <ParticleBackground />
 
@@ -25,7 +32,7 @@ export default function App() {
       <Navbar personal={personal} />
 
       {/* Main Content Flow */}
-      <main>
+      <main className={isLoading ? 'content-hidden' : 'content-visible'}>
         {/* Interactive Hero with Typewriter & Live Stats */}
         <Hero personal={personal} stats={stats} />
 

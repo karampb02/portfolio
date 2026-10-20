@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
   ArrowRight, 
   Terminal, 
@@ -7,18 +9,30 @@ import {
   Rocket, 
   Activity, 
   Clock, 
-  Download,
   Copy,
-  Check
+  Check,
+  Bot
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, UnstopIcon } from './Icons';
 import confetti from 'canvas-confetti';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero({ personal, stats }) {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  const heroRef = useRef(null);
+  const badgeRef = useRef(null);
+  const titleRef = useRef(null);
+  const typewriterRef = useRef(null);
+  const descRef = useRef(null);
+  const actionsRef = useRef(null);
+  const socialRef = useRef(null);
+  const statsRef = useRef(null);
+  const codeCardRef = useRef(null);
 
   // Typewriter effect
   useEffect(() => {
@@ -45,12 +59,109 @@ export default function Hero({ personal, stats }) {
     return () => clearTimeout(timeout);
   }, [displayedText, isDeleting, roleIndex, personal.roleTitles]);
 
+  // GSAP Animations (from, to, fromTo, ScrollTrigger)
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero Entrance Timeline using fromTo and from
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      tl.fromTo(
+        badgeRef.current,
+        { opacity: 0, y: -30, scale: 0.9 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.7 }
+      )
+      .fromTo(
+        titleRef.current,
+        { opacity: 0, y: 40, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.8 },
+        '-=0.4'
+      )
+      .fromTo(
+        typewriterRef.current,
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        '-=0.4'
+      )
+      .fromTo(
+        descRef.current,
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        '-=0.4'
+      )
+      .fromTo(
+        actionsRef.current,
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        '-=0.3'
+      )
+      .fromTo(
+        socialRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.5 },
+        '-=0.3'
+      );
+
+      // ScrollTrigger fromTo for stats cards
+      if (statsRef.current) {
+        const statCards = statsRef.current.querySelectorAll('.stat-card');
+        gsap.fromTo(
+          statCards,
+          { opacity: 0, y: 40, scale: 0.9 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            stagger: 0.12,
+            duration: 0.7,
+            ease: 'back.out(1.4)',
+            scrollTrigger: {
+              trigger: statsRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      }
+
+      // ScrollTrigger fromTo for code window
+      if (codeCardRef.current) {
+        gsap.fromTo(
+          codeCardRef.current,
+          { opacity: 0, y: 60, rotateX: 10 },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: codeCardRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+
+        // Continuous subtle floating animation using gsap.to
+        gsap.to(codeCardRef.current, {
+          y: -10,
+          duration: 3,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut'
+        });
+      }
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(personal.email);
     setCopied(true);
     confetti({
-      particleCount: 40,
-      spread: 60,
+      particleCount: 50,
+      spread: 70,
       origin: { y: 0.7 }
     });
     setTimeout(() => setCopied(false), 2500);
@@ -67,36 +178,36 @@ export default function Hero({ personal, stats }) {
   };
 
   return (
-    <section className="hero-section" id="hero">
+    <section ref={heroRef} className="hero-section" id="hero">
       <div className="container hero-container">
         
         {/* Top greeting badge */}
-        <div className="hero-top-badge animate-float">
-          <span className="sparkle-icon">✨</span>
-          <span>Crafting High-Impact Web & Systems Engineering</span>
+        <div ref={badgeRef} className="hero-top-badge animate-float">
+          <Bot size={15} className="sparkle-icon" />
+          <span>Next-Gen Full-Stack & Generative AI Engineering</span>
         </div>
 
         {/* Main headline */}
-        <h1 className="hero-title">
+        <h1 ref={titleRef} className="hero-title">
           Hi, I'm <span className="gradient-text">{personal.name}</span>
         </h1>
 
         {/* Dynamic Typewriter Role */}
-        <div className="typewriter-container">
+        <div ref={typewriterRef} className="typewriter-container">
           <span className="typewriter-prefix">I build as a </span>
           <span className="typewriter-text mono">{displayedText}</span>
           <span className="cursor-blink">|</span>
         </div>
 
         {/* Tagline / Subtitle */}
-        <p className="hero-description">
+        <p ref={descRef} className="hero-description">
           {personal.tagline}
         </p>
 
         {/* Call to Action Buttons */}
-        <div className="hero-actions">
+        <div ref={actionsRef} className="hero-actions">
           <a href="#projects" className="btn btn-primary">
-            <span>View Featured Projects</span>
+            <span>Explore Featured Projects</span>
             <ArrowRight size={18} />
           </a>
 
@@ -116,7 +227,7 @@ export default function Hero({ personal, stats }) {
         </div>
 
         {/* Social Link Quick Row */}
-        <div className="hero-social-row">
+        <div ref={socialRef} className="hero-social-row">
           <span className="social-label">Find me on:</span>
           <div className="social-links">
             <a href={personal.github} target="_blank" rel="noreferrer" className="social-circle" aria-label="GitHub">
@@ -138,7 +249,7 @@ export default function Hero({ personal, stats }) {
         </div>
 
         {/* Interactive Stats Ribbon */}
-        <div className="stats-grid">
+        <div ref={statsRef} className="stats-grid">
           {stats.map((stat, idx) => (
             <div key={idx} className="stat-card glass-card">
               <div className="stat-icon-wrapper">
@@ -153,7 +264,7 @@ export default function Hero({ personal, stats }) {
         </div>
 
         {/* Code Snippet Showcase Card */}
-        <div className="hero-code-wrapper">
+        <div ref={codeCardRef} className="hero-code-wrapper">
           <div className="code-window glass-card">
             <div className="code-header">
               <div className="window-dots">
@@ -161,8 +272,8 @@ export default function Hero({ personal, stats }) {
                 <span className="dot dot-yellow" />
                 <span className="dot dot-green" />
               </div>
-              <div className="code-filename mono">engineer.config.ts</div>
-              <div className="code-status mono">READY</div>
+              <div className="code-filename mono">karamjit.ai-config.ts</div>
+              <div className="code-status mono">SYSTEM ONLINE</div>
             </div>
             <pre className="code-body mono">
               <code>

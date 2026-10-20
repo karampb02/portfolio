@@ -1,12 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Terminal, ArrowUpRight, Code, Sparkles } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { Menu, X, ArrowUpRight, Code } from 'lucide-react';
 
 export default function Navbar({ personal }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const navRef = useRef(null);
 
   useEffect(() => {
+    // GSAP entrance animation for navbar
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        navRef.current,
+        { y: -60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.1 }
+      );
+    }, navRef);
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
 
@@ -27,7 +38,10 @@ export default function Navbar({ personal }) {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      ctx.revert();
+    };
   }, []);
 
   const navLinks = [
@@ -40,7 +54,7 @@ export default function Navbar({ personal }) {
   ];
 
   return (
-    <header className={`navbar-wrapper ${scrolled ? 'scrolled' : ''}`}>
+    <header ref={navRef} className={`navbar-wrapper ${scrolled ? 'scrolled' : ''}`}>
       <div className="container nav-container">
         {/* Brand */}
         <a href="#" className="brand-logo" aria-label="Home">

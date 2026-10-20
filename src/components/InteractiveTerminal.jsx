@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Terminal, Send, CornerDownLeft, Sparkles } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Terminal, CornerDownLeft } from 'lucide-react';
 import confetti from 'canvas-confetti';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function InteractiveTerminal({ commands, personal }) {
   const [history, setHistory] = useState([
@@ -9,8 +13,73 @@ export default function InteractiveTerminal({ commands, personal }) {
   ]);
   const [inputVal, setInputVal] = useState('');
   const terminalEndRef = useRef(null);
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const terminalBoxRef = useRef(null);
+  const chipsRef = useRef(null);
 
   const quickCommands = ['help', 'bio', 'skills', 'projects', 'certifications', 'leadership', 'stats', 'sudo hire', 'clear'];
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header Animation
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+
+      // Chips animation
+      if (chipsRef.current) {
+        gsap.fromTo(
+          chipsRef.current.children,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.05,
+            duration: 0.5,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: chipsRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      }
+
+      // Terminal Box Animation with subtle 3D tilt & glow reveal
+      gsap.fromTo(
+        terminalBoxRef.current,
+        { opacity: 0, y: 50, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: terminalBoxRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleCommand = (cmdText) => {
     const trimmed = cmdText.trim().toLowerCase();
@@ -60,11 +129,11 @@ export default function InteractiveTerminal({ commands, personal }) {
   }, [history]);
 
   return (
-    <section className="terminal-section" id="terminal">
+    <section ref={sectionRef} className="terminal-section" id="terminal">
       <div className="container">
         
         {/* Section Header */}
-        <div className="section-header">
+        <div ref={headerRef} className="section-header">
           <div className="section-tag">
             <Terminal size={14} />
             <span>Interactive CLI</span>
@@ -78,7 +147,7 @@ export default function InteractiveTerminal({ commands, personal }) {
         </div>
 
         {/* Quick Suggestion Chips */}
-        <div className="terminal-quick-chips">
+        <div ref={chipsRef} className="terminal-quick-chips">
           <span className="chips-label">Quick run:</span>
           {quickCommands.map((cmd) => (
             <button
@@ -92,7 +161,7 @@ export default function InteractiveTerminal({ commands, personal }) {
         </div>
 
         {/* Terminal Window */}
-        <div className="terminal-box glass-card mono">
+        <div ref={terminalBoxRef} className="terminal-box glass-card mono">
           <div className="terminal-header">
             <div className="terminal-dots">
               <span className="dot dot-red" />

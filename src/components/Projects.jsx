@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
   FolderGit2, 
   ExternalLink, 
   Sparkles, 
-  Layers, 
-  Cpu, 
   CheckCircle2, 
-  Code,
   Zap,
   X
 } from 'lucide-react';
 import { GithubIcon } from './Icons';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Projects({ projects }) {
   const [filter, setFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
+
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const gridRef = useRef(null);
 
   const categories = ['All', 'Full Stack', 'AI & Systems', 'Systems & Backend', 'Frontend'];
 
@@ -22,12 +27,63 @@ export default function Projects({ projects }) {
     ? projects
     : projects.filter((p) => p.category === filter);
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header Animation
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // Animate project cards when filter changes or on mount
+  useEffect(() => {
+    if (!gridRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const cards = gridRef.current.querySelectorAll('.project-card');
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 45, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.1,
+          duration: 0.65,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }, gridRef);
+
+    return () => ctx.revert();
+  }, [filter]);
+
   return (
-    <section className="projects-section" id="projects">
+    <section ref={sectionRef} className="projects-section" id="projects">
       <div className="container">
         
         {/* Section Header */}
-        <div className="section-header">
+        <div ref={headerRef} className="section-header">
           <div className="section-tag">
             <FolderGit2 size={14} />
             <span>Portfolio Work</span>
@@ -54,7 +110,7 @@ export default function Projects({ projects }) {
         </div>
 
         {/* Projects Grid */}
-        <div className="projects-grid">
+        <div ref={gridRef} className="projects-grid">
           {filteredProjects.map((project) => (
             <div key={project.id} className="project-card glass-card">
               {/* Card Header & Category */}
@@ -77,7 +133,7 @@ export default function Projects({ projects }) {
               {/* Performance Metric Pill */}
               {project.metrics && (
                 <div className="project-metric-pill mono">
-                  <Zap size={14} className="text-cyan" />
+                  <Zap size={14} className="text-ai-cyan" />
                   <span>{project.metrics}</span>
                 </div>
               )}

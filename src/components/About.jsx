@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
   Layers, 
   Brain, 
@@ -11,7 +13,77 @@ import {
   Zap
 } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function About({ personal, strengths }) {
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const storyRef = useRef(null);
+  const strengthsRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header Animation
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+
+      // Story Card Animation
+      gsap.fromTo(
+        storyRef.current,
+        { opacity: 0, y: 45, scale: 0.98 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: storyRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+
+      // Strengths Cards Stagger Animation
+      if (strengthsRef.current) {
+        const cards = strengthsRef.current.querySelectorAll('.strength-card');
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 40, scale: 0.94 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            stagger: 0.1,
+            duration: 0.7,
+            ease: 'back.out(1.4)',
+            scrollTrigger: {
+              trigger: strengthsRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const getStrengthIcon = (name) => {
     switch (name) {
       case 'Layers': return <Layers className="strength-svg" />;
@@ -25,11 +97,11 @@ export default function About({ personal, strengths }) {
   };
 
   return (
-    <section className="about-section" id="about">
+    <section ref={sectionRef} className="about-section" id="about">
       <div className="container">
         
         {/* Section Header */}
-        <div className="section-header">
+        <div ref={headerRef} className="section-header">
           <div className="section-tag">
             <Sparkles size={14} />
             <span>Engineering Philosophy</span>
@@ -43,10 +115,10 @@ export default function About({ personal, strengths }) {
         </div>
 
         {/* Narrative & Bio Box */}
-        <div className="about-story-card glass-card">
+        <div ref={storyRef} className="about-story-card glass-card">
           <div className="story-content">
             <div className="story-badge">
-              <Zap size={16} className="text-purple" />
+              <Zap size={16} className="text-ai-cyan" />
               <span>Campus Leadership & Engineering</span>
             </div>
             <h3 className="story-heading">From AI Security & Full-Stack Development to Community Leadership</h3>
@@ -71,7 +143,7 @@ export default function About({ personal, strengths }) {
         </div>
 
         {/* Core Strengths Grid */}
-        <div className="strengths-grid">
+        <div ref={strengthsRef} className="strengths-grid">
           {strengths.map((strength, index) => (
             <div key={index} className="strength-card glass-card">
               <div className="strength-icon-container">

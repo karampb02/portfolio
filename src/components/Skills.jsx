@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
   Code2, 
   Layout, 
@@ -6,12 +8,16 @@ import {
   Database, 
   Terminal, 
   GitFork, 
-  Check, 
   Sparkles 
 } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Skills({ skills }) {
   const [activeCategory, setActiveCategory] = useState('all');
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const gridRef = useRef(null);
 
   const categories = [
     { id: 'all', name: 'All Skills', icon: Code2 },
@@ -30,12 +36,84 @@ export default function Skills({ skills }) {
     ? skills.categories 
     : skills.categories.filter((cat) => cat.id === activeCategory);
 
+  // GSAP animations for Header & Skill Cards
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // Animate skill cards and progress bars whenever category changes or initially mounts
+  useEffect(() => {
+    if (!gridRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const cards = gridRef.current.querySelectorAll('.skill-category-card');
+      const fills = gridRef.current.querySelectorAll('.skill-bar-fill');
+
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 35, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.1,
+          duration: 0.6,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+
+      // Animate progress bar widths from 0 to target
+      fills.forEach((fill) => {
+        const targetWidth = fill.getAttribute('data-level') || '75';
+        gsap.fromTo(
+          fill,
+          { width: '0%' },
+          {
+            width: `${targetWidth}%`,
+            duration: 1.1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: fill,
+              start: 'top 90%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      });
+    }, gridRef);
+
+    return () => ctx.revert();
+  }, [activeCategory]);
+
   return (
-    <section className="skills-section" id="skills">
+    <section ref={sectionRef} className="skills-section" id="skills">
       <div className="container">
         
         {/* Section Header */}
-        <div className="section-header">
+        <div ref={headerRef} className="section-header">
           <div className="section-tag">
             <Sparkles size={14} />
             <span>Technical Mastery</span>
@@ -67,7 +145,7 @@ export default function Skills({ skills }) {
         </div>
 
         {/* Skills Cards Grid */}
-        <div className="skills-categories-grid">
+        <div ref={gridRef} className="skills-categories-grid">
           {displayedCategories.map((cat) => (
             <div key={cat.id} className="skill-category-card glass-card">
               <div className="category-header">
@@ -91,6 +169,7 @@ export default function Skills({ skills }) {
                     <div className="skill-bar-track">
                       <div 
                         className="skill-bar-fill" 
+                        data-level={item.level}
                         style={{ width: `${item.level}%` }}
                       />
                     </div>

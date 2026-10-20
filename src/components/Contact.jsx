@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
   Mail, 
   Send, 
@@ -7,11 +9,12 @@ import {
   Code2, 
   MapPin, 
   Phone,
-  Sparkles,
   MessageSquare
 } from 'lucide-react';
-import { GithubIcon, LinkedinIcon, TwitterIcon, YoutubeIcon, UnstopIcon } from './Icons';
+import { GithubIcon, LinkedinIcon, YoutubeIcon, UnstopIcon } from './Icons';
 import confetti from 'canvas-confetti';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Contact({ personal }) {
   const [copied, setCopied] = useState(false);
@@ -22,6 +25,73 @@ export default function Contact({ personal }) {
     subject: '',
     message: ''
   });
+
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const leftColRef = useRef(null);
+  const rightColRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header Animation
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+
+      // Left Column Cards Animation
+      if (leftColRef.current) {
+        gsap.fromTo(
+          leftColRef.current.children,
+          { opacity: 0, x: -30 },
+          {
+            opacity: 1,
+            x: 0,
+            stagger: 0.15,
+            duration: 0.7,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: leftColRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      }
+
+      // Right Column Form Animation
+      if (rightColRef.current) {
+        gsap.fromTo(
+          rightColRef.current,
+          { opacity: 0, x: 30 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.75,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: rightColRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(personal.email);
@@ -57,11 +127,11 @@ export default function Contact({ personal }) {
   };
 
   return (
-    <section className="contact-section" id="contact">
+    <section ref={sectionRef} className="contact-section" id="contact">
       <div className="container">
         
         {/* Section Header */}
-        <div className="section-header">
+        <div ref={headerRef} className="section-header">
           <div className="section-tag">
             <Mail size={14} />
             <span>Get in Touch</span>
@@ -77,12 +147,12 @@ export default function Contact({ personal }) {
         <div className="contact-layout">
           
           {/* Left Column: Direct Info & Social Cards */}
-          <div className="contact-info-col">
+          <div ref={leftColRef} className="contact-info-col">
             
             {/* Direct Email Card */}
             <div className="email-highlight-card glass-card">
               <div className="email-card-icon">
-                <Mail size={24} className="text-purple" />
+                <Mail size={24} className="text-ai-cyan" />
               </div>
               <h3 className="email-card-title">Direct Inquiries</h3>
               <p className="email-card-sub">Feel free to copy or send an email directly:</p>
@@ -109,7 +179,7 @@ export default function Contact({ personal }) {
               </div>
               {personal.phone && (
                 <div className="meta-row">
-                  <Phone size={18} className="text-purple" />
+                  <Phone size={18} className="text-ai-violet" />
                   <span><strong>Direct Line:</strong> <a href={`tel:${personal.phone}`} style={{ color: 'inherit', textDecoration: 'none' }}>{personal.phone}</a></span>
                 </div>
               )}
@@ -190,10 +260,10 @@ export default function Contact({ personal }) {
           </div>
 
           {/* Right Column: Contact Message Form */}
-          <div className="contact-form-col">
+          <div ref={rightColRef} className="contact-form-col">
             <div className="form-card glass-card">
               <div className="form-header">
-                <MessageSquare size={20} className="text-purple" />
+                <MessageSquare size={20} className="text-ai-cyan" />
                 <h3>Send a Direct Message</h3>
               </div>
 

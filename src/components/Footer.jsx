@@ -1,5 +1,7 @@
 import React from 'react';
-import { ArrowUp, Code, Heart } from 'lucide-react';
+import { ArrowUp, Code } from 'lucide-react';
+
+const currentYear = new Date().getFullYear();
 
 export default function Footer({ personal }) {
   const scrollToTop = () => {
@@ -42,7 +44,7 @@ export default function Footer({ personal }) {
             <ArrowUp size={18} />
           </button>
           <div className="footer-copy">
-            © {new Date().getFullYear()} {personal.name}. All rights reserved.
+            © {currentYear} {personal.name}. All rights reserved.
           </div>
         </div>
 
